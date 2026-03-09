@@ -1,0 +1,8 @@
+Django>=5.0.7
+django-environ
+gunicorn
+whitenoise  # For serving static files
+mysqlclient  # PostgreSQL adapter (or mysqlclient for MySQL)
+Pillow  # Image processing
+django-cors-headers  # For frontend/backend communication
+

@@ -1,0 +1,182 @@
+<aside id="sidebar" class="border-end bg-light">
+    <ul class="nav flex-column sidebar-nav">
+
+        <!-- Dashboard -->
+        <li class="nav-item mb-1">
+            <a href="{% url 'dashboard' %}" class="nav-link">
+                🏠 <span class="sidebar-text">Dashboard</span>
+            </a>
+        </li>
+
+        <!-- Admin Panel -->
+        {% if request.user.user_type == "admin" %}
+        <li class="nav-item mb-1">
+            <a class="nav-link" data-bs-toggle="collapse" href="#adminMenu" role="button" aria-expanded="false" aria-controls="adminMenu">
+                ⚙️ <span class="sidebar-text">Administration</span>
+            </a>
+            <ul id="adminMenu" class="collapse sidebar-submenu">
+                <li><a class="nav-link" href="{% url 'users_management' %}">Users Management</a></li>
+                <li><a class="nav-link" href="url 'manage_departments' %}">Departments Management</a></li>
+                <li><a class="nav-link" href="url 'manage_staff' %}">Staff Management</a></li>
+                <li><a class="nav-link" href="url 'manage_staff' %}">Inventory Management</a></li>
+                <li><a class="nav-link" href="url 'system_settings' %}">System Settings</a></li>
+            </ul>
+        </li>
+        {% endif %}
+
+        <!-- Doctor Panel -->
+        {% if request.user.user_type == "doctor" %}
+        <li class="nav-item mb-1">
+            <a class="nav-link" data-bs-toggle="collapse" href="#doctorMenu" role="button" aria-expanded="false" aria-controls="doctorMenu">
+                🩺 <span class="sidebar-text">Doctor Panel</span>
+            </a>
+            <ul id="doctorMenu" class="collapse sidebar-submenu">
+                <li><a class="nav-link" href=" url 'doctor_patients' %}">My Patients</a></li>
+                <li><a class="nav-link" href=" url 'doctor_appointments' %}">Appointments</a></li>
+                <li><a class="nav-link" href=" url 'doctor_schedule' %}">My Schedule</a></li>
+                <li><a class="nav-link" href=" url 'doctor_diagnosis' %}">Record Diagnosis</a></li>
+                <li><a class="nav-link" href=" url 'doctor_diagnosis_history' %}">Diagnosis History</a></li>
+                <li><a class="nav-link" href=" url 'doctor_prescriptions' %}">Prescriptions</a></li>
+                <li><a class="nav-link" href=" url 'doctor_medication_orders' %}">Medication Orders</a></li>
+                <li><a class="nav-link" href=" url 'doctor_lab_requests' %}">Lab Requests</a></li>
+                <li><a class="nav-link" href=" url 'doctor_lab_results' %}">Lab Results</a></li>
+                <li><a class="nav-link" href=" url 'doctor_radiology_requests' %}">Radiology Requests</a></li>
+                <li><a class="nav-link" href=" url 'doctor_radiology_results' %}">Radiology Results</a></li>
+                <li><a class="nav-link" href=" url 'doctor_ward_rounds' %}">Ward Rounds</a></li>
+                <li><a class="nav-link" href=" url 'doctor_inpatient_list' %}">Inpatients</a></li>
+                <li><a class="nav-link" href=" url 'doctor_followups' %}">Follow-ups</a></li>
+                <li><a class="nav-link" href=" url 'doctor_referrals' %}">Patient Referrals</a></li>
+                <li><a class="nav-link" href=" url 'doctor_discharge_approval' %}">Discharge Approval</a></li>
+                <li><a class="nav-link" href=" url 'doctor_reports' %}">Reports</a></li>
+            </ul>
+        </li>
+        {% endif %}
+        <!-- Receptionist Panel -->
+        {% if request.user.user_type == "receptionist" %}
+        <li class="nav-item mb-1">
+            <a class="nav-link" data-bs-toggle="collapse" href="#receptionistMenu" role="button" aria-expanded="false" aria-controls="receptionistMenu">
+                📝 <span class="sidebar-text">Reception</span>
+            </a>
+            <ul id="receptionistMenu" class="collapse sidebar-submenu">
+                <li><a class="nav-link" href="{% url 'register_patient' %}">Register New Patient</a></li>
+                <li><a class="nav-link" href="url 'search_patient' %}">Search Existing Patient</a></li>
+                <li><a class="nav-link" href="url 'assigned_patients' %}">Assigned Patients</a></li>
+                <li><a class="nav-link" href="url 'walkin_services' %}">Walk-In Services</a></li>
+                <li><a class="nav-link" href="url 'appointments' %}">View Appointments</a></li>
+                <li><a class="nav-link" href="url 'inpatient_management' %}">Inpatients Management</a></li>
+                <li><a class="nav-link" href="url 'reception_reports' %}">Reports</a></li>
+            </ul>
+        </li>
+        {% endif %}
+        <!-- Nurse Panel -->
+        {% if request.user.user_type == "nurse" %}
+        <li class="nav-item mb-1">
+            <a class="nav-link" data-bs-toggle="collapse" href="#nurseMenu" role="button" aria-expanded="false" aria-controls="nurseMenu">
+                👩‍⚕️ <span class="sidebar-text">Nurse Panel</span>
+            </a>
+            <ul id="nurseMenu" class="collapse sidebar-submenu">
+                <li><a class="nav-link" href="{% url 'nurse_patients' %}">Assigned Patients</a></li>
+                <li><a class="nav-link" href="{% url 'nurse_vitals' %}">Record Vitals</a></li>
+                <li><a class="nav-link" href="{% url 'nurse_medication_administration' %}">Medication Administration</a></li>
+            </ul>
+        </li>
+        {% endif %}
+
+        <!-- Pharmacy Panel -->
+        {% if request.user.user_type == "pharmacist" %}
+        <li class="nav-item mb-1">
+            <a class="nav-link" data-bs-toggle="collapse" href="#pharmacyMenu" role="button" aria-expanded="false" aria-controls="pharmacyMenu">
+                💊 <span class="sidebar-text">Pharmacy</span>
+            </a>
+            <ul id="pharmacyMenu" class="collapse sidebar-submenu">
+                <li><a class="nav-link" href="{% url 'pharmacy_inventory' %}">Inventory</a></li>
+                <li><a class="nav-link" href="{% url 'pharmacy_prescriptions' %}">Prescriptions</a></li>
+                <li><a class="nav-link" href="{% url 'pharmacy_dispense' %}">Dispense Medication</a></li>
+            </ul>
+        </li>
+        {% endif %}
+
+        <!-- Cashier Panel -->
+        {% if request.user.user_type == "cashier" %}
+        <li class="nav-item mb-1">
+            <a class="nav-link" href=" url 'billings' %}">
+                💵 <span class="sidebar-text">Billing</span>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</aside>
+
+<style>
+/* Content push for desktop only */
+#content {
+    margin-top: 56px;
+    padding: 1rem;
+    transition: margin-left 0.3s ease;
+}
+
+@media (min-width: 992px) {
+    #sidebar.active ~ #content {
+        margin-left: 260px;
+    }
+}
+
+/* Sidebar main styles */
+#sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    position: fixed;
+    top: 56px;
+    left: -260px; /* collapsed by default */
+    transition: left 0.3s ease;
+    z-index: 1040;
+}
+
+#sidebar.active {
+    left: 0;
+}
+
+.nav-link {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: #111827;
+}
+
+.nav-link:hover {
+    background-color: #065f46;
+    color: #ffffff;
+}
+
+.nav-link.active {
+    background-color: #10b981;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Submenu */
+.sidebar-submenu {
+    list-style: none;
+    padding-left: 12px;
+    margin-top: 4px;
+}
+
+.sidebar-submenu .nav-link {
+    font-size: 13px;
+    padding: 6px 12px;
+    color: #4b5563;
+}
+
+.sidebar-submenu .nav-link:hover {
+    background-color: #065f46;
+    color: #ffffff;
+}
+
+/* Sidebar text */
+.sidebar-text {
+    white-space: nowrap;
+}
+</style>

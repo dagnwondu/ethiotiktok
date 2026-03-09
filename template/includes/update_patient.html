@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Update Patient: {{ patient.full_name }}</h3>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'receptionist_dashboard' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

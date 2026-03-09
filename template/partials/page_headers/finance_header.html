@@ -1,0 +1,47 @@
+<div class="d-flex flex-wrap gap-2 mb-2">
+
+    <!-- Pending Invoices -->
+    <a href="{% url 'pending_invoices' %}" class="btn btn-outline-primary btn-sm">
+        💵 Pending Invoices
+    </a>
+
+    <!-- All Invoices -->
+    <a href="{% url 'billings' %}" class="btn btn-outline-primary btn-sm">
+        📄 All Invoices
+    </a>
+
+    <!-- Walk-in Payments -->
+    <a href="{% url 'walkin_payments' %}" class="btn btn-outline-primary btn-sm">
+        🚶‍♂️ Walk-in Payments
+    </a>
+
+    <!-- Refund Requests -->
+    <a href="{% url 'refund_requests' %}" class="btn btn-outline-primary btn-sm">
+        🔁 Refund Requests
+    </a>
+
+    <!-- Payment History -->
+    <a href="{% url 'payment_history' %}" class="btn btn-outline-primary btn-sm">
+        🧾 Payment History
+    </a>
+
+    <!-- Insurance / Corporate Billing -->
+    <a href="{% url 'insurance_billing' %}" class="btn btn-outline-primary btn-sm">
+        🏦 Insurance Billing
+    </a>
+
+    <!-- Finance Reports Dropdown -->
+    <div class="dropdown">
+        <button class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+            📊 Finance Reports
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'daily_collection_report' %}">Daily Collection</a></li>
+            <li><a class="dropdown-item" href="{% url 'monthly_revenue_report' %}">Monthly Revenue</a></li>
+            <li><a class="dropdown-item" href="{% url 'unpaid_invoices_report' %}">Unpaid Invoices</a></li>
+            <li><a class="dropdown-item" href="{% url 'payment_method_report' %}">Payment Method Summary</a></li>
+            <li><a class="dropdown-item" href="{% url 'refund_report' %}">Refund Report</a></li>
+        </ul>
+    </div>
+
+</div>

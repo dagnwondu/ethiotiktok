@@ -1,0 +1,15 @@
+<div class="d-flex flex-wrap gap-2 mb-2">
+
+    <!-- Pharmacy Tools Dropdown -->
+    <div class="dropdown">
+        <button class="btn btn-info btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+            💊 Pharmacy
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'pharmacy_inventory' %}">Inventory</a></li>
+            <li><a class="dropdown-item" href="{% url 'pharmacy_prescriptions' %}">Prescriptions</a></li>
+            <li><a class="dropdown-item" href="{% url 'pharmacy_dispense' %}">Dispense Medication</a></li>
+        </ul>
+    </div>
+
+</div>

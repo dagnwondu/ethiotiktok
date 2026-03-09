@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+
+    <h4 class="mb-4 fw-bold text-center">💵 Pending Payments</h4>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if invoices %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Invoice ID</th>
+                    <th>Patient</th>
+                    <th>Visit</th>
+                    <th>Total Amount</th>
+                    <th>Created At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td>#{{ invoice.id }}</td>
+                    <td>{{ invoice.patient }}</td>
+                    <td>Visit #{{ invoice.visit.id }}</td>
+                    <td class="fw-bold text-success">
+                        {{ invoice.total }} ETB
+                    </td>
+                    <td>{{ invoice.created_at|date:"M d, Y H:i" }}</td>
+                    <td class="text-center">
+
+                       <a href=" url 'invoice_detail' invoice.id %}"
+
+                           class="btn btn-md btn-outline-primary">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+        <div class="alert alert-info text-center">
+            🎉 All invoices are paid.
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

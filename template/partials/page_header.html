@@ -1,0 +1,15 @@
+<div class="role-header bg-light border-bottom px-3 py-2">
+{% if request.user.user_type == "doctor" %}
+    {% include "partials/page_headers/doctor_header.html" %}
+{% elif request.user.user_type == "nurse" %}
+    {% include "partials/page_headers/nurse_header.html" %}
+{% elif request.user.user_type == "receptionist" %}
+    {% include "partials/page_headers/receptionist_header.html" %}
+{% elif request.user.user_type == "pharmacist" %}
+    {% include "partials/page_headers/pharmacist_header.html" %}
+{% elif request.user.user_type == "finance" %}
+    {% include "partials/page_headers/finance_header.html" %}
+{% elif request.user.user_type == "admin" %}
+    {% include "partials/page_headers/admin_header.html" %}
+{% endif %}
+</div>

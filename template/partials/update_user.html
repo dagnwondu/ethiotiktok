@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Update User</h5>
+        </div>
+
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label>First Name</label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label>Middle Name</label>
+                    {{ form.middle_name }}
+                    {{ form.middle_name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label>Last Name</label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label>Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label>User Type</label>
+                    {{ form.user_type }}
+                    {{ form.user_type.errors }}
+                </div>
+
+                <button type="submit" class="btn btn-success">Update User</button>
+                </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

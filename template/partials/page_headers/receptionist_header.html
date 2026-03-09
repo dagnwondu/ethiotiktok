@@ -1,0 +1,46 @@
+<div class="d-flex flex-wrap gap-2 mb-2">
+
+    <!-- Register New Patient -->
+    <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#addPatientModal">
+        🖊️ Register New Patient
+    </button>
+
+    <!-- Search Existing Patient -->
+    <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#searchPatientModal">
+        🔍 Search Existing Patient
+    </button>
+        <!-- Dashboard Data Dropdown -->
+    <div class="dropdown">
+        <button class="btn btn-outline-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+            👥  Patient By Type
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Active OPD patients</a></li>
+            <li><a class="dropdown-item" href="#">IPD/Admitted patients with beds/Inpatients Management</a></li>
+            <li><a class="dropdown-item" href="#">Waiting For Payment</a></li> 
+            <li><a class="dropdown-item" href="#">ER / Emergency Patients</a></li>
+            <li><a class="dropdown-item" href="#">Walking Patients</a></li>
+        </ul>
+    </div>
+    <!-- Appointments -->
+    <a href=" url 'appointments' %}" class="btn btn-outline-success btn-sm">
+        📅 Appointments
+    </a>
+    <!-- Reports Dropdown -->
+    <div class="dropdown">
+        <button class="btn btn-outline-success btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+            📊 Reports
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Patient Reports</a></li>
+            <li><a class="dropdown-item" href="#">Appointment Reports</a></li>
+            <li><a class="dropdown-item" href="#">Follow-up Reports</a></li>
+            <li><a class="dropdown-item" href="#">Referral Reports</a></li>
+            <li><a class="dropdown-item" href="#">Discharge Reports</a></li>
+        </ul>
+    </div>
+
+</div>
+{% include "partials/modals/patient_modal.html" %}
+{% include "partials/modals/search_patient_modal.html" %}
+

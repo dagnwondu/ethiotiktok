@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+{% load report_extras %}
+<div class="card shadow-sm">
+    <div class="card-header">
+        <strong>Billing Report</strong>
+    </div>
+<form method="get" class="row g-2 mb-3 align-items-end">
+    <div class="col-md-3">
+        <label for="from_date" class="form-label">From</label>
+        <input type="date" name="from" id="from_date" class="form-control" value="{{ from_date }}">
+    </div>
+    <div class="col-md-3">
+        <label for="to_date" class="form-label">To</label>
+        <input type="date" name="to" id="to_date" class="form-control" value="{{ to_date }}">
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+<div class="col-md-4 text-end">
+    <label class="form-label d-block">Export:</label>
+<a href="?export=excel&from={{ from_date|date:'Y-m-d' }}&to={{ to_date|date:'Y-m-d' }}" 
+   class="btn btn-success btn-sm">Excel</a>
+<a href="?export=pdf&from={{ from_date|date:'Y-m-d' }}&to={{ to_date|date:'Y-m-d' }}" 
+   class="btn btn-danger btn-sm">PDF</a>
+
+</div>
+
+</form>
+
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover table-sm align-middle mb-0">
+
+        <thead class="table-light text-center">
+            <tr>
+                {% for col in columns %}
+                <th>{{ col.label }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                {% for col in columns %}
+                <td class="{% if col.key == 'total' %}text-end fw-semibold{% endif %}">
+                    {% if col.key == "date" %}
+                        {{ row.date|date:"Y-m-d H:i" }}
+                    {% elif col.key == "total" %}
+                        {{ row|get_item:col.key|floatformat:2 }}
+                    {% else %}
+                        {{ row|get_item:col.key }}
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{{ columns|length }}" class="text-center text-muted">
+                    No invoices found
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        {% if totals %}
+        <tfoot class="table-secondary fw-bold">
+            <tr>
+                {% for col in columns %}
+                <td class="{% if col.key == 'total' %}text-end{% endif %}">
+                    {% if col.key == 'total' %}
+                        {{ totals.total|floatformat:2 }}
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+        </tfoot>
+        {% endif %}
+
+    </table>
+    </div>
+</div>
+{% endblock %}

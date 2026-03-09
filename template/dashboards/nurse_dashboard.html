@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{request.user.user_type}} Dashboard</h2>
+
+  {% if perms.hospital.record_diagnosis %}
+    <a href=" url 'diagnosis_list' %}" class="btn btn-primary">View Diagnoses</a>
+  {% endif %}
+
+  {% if perms.hospital.prescribe_medication %}
+    <a href=" url 'prescribe_form' %}" class="btn btn-success">Prescribe Medication</a>
+  {% endif %}
+{% endblock %}

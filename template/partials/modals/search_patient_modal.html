@@ -1,0 +1,20 @@
+<!-- Search Existing Patient Modal -->
+<div class="modal fade" id="searchPatientModal" tabindex="-1" aria-labelledby="searchPatientModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="GET" action=" url 'patient:search_patient' %}">
+        <div class="modal-header bg-secondary text-white">
+          <h5 class="modal-title" id="searchPatientModalLabel">Search Patient</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" name="query" class="form-control" placeholder="Enter patient name or ID" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
