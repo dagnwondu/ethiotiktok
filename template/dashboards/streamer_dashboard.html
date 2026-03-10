@@ -1,65 +1,89 @@
-<!-- livestream/templates/livestream/streamer.html -->
 {% extends "base.html" %}
 
-{% block title %}Go Live | Ethiotiktok{% endblock %}
+{% block title %}Streamer Dashboard | Ethiotiktok{% endblock %}
 
 {% block extra_head %}
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
-  #video-container { max-width: 800px; margin: auto; }
-  #guests-list { margin-top: 20px; }
+    #video-container {
+        max-width: 800px;
+        margin: auto;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    #video-container video {
+        width: 100%;
+        display: block;
+    }
+
+    #guests-list {
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    #guests-list ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    #guests-list li {
+        padding: 5px 0;
+    }
+
+    .center {
+        text-align: center;
+        max-width: 800px;
+        margin: 20px auto;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<h3 class="text-center mb-4">Live Stream Dashboard</h3>
+<h2 class="center">Live Stream Dashboard</h2>
 
 <div id="video-container">
-  <video id="live-player" controls autoplay muted class="w-100" style="border:1px solid #ccc;"></video>
+    <video id="live-player" controls autoplay muted></video>
 </div>
 
-<!-- Guests -->
-<div id="guests-list" class="mt-4">
-  <h5>Guests</h5>
-  <ul class="list-group">
-    {% for guest in guests %}
-      <li class="list-group-item">{{ guest.username }}</li>
-    {% empty %}
-      <li class="list-group-item">No guests joined yet</li>
-    {% endfor %}
-  </ul>
+<div id="guests-list" class="card">
+    <h4>Guests</h4>
+    <ul>
+        {% for guest in guests %}
+            <li>{{ guest.username }}</li>
+        {% empty %}
+            <li>No guests joined yet</li>
+        {% endfor %}
+    </ul>
 </div>
 
-<!-- Live Stream Controls -->
-<div class="mt-4">
-  {% if not livestream.is_live %}
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit" name="action" value="start" class="btn btn-success">Start Live Stream</button>
-    </form>
-  {% else %}
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit" name="action" value="stop" class="btn btn-danger">End Live Stream</button>
-    </form>
-    <p class="mt-2">Viewers: <strong id="viewers-count">{{ livestream.viewers_count }}</strong></p>
-  {% endif %}
+<div class="center">
+    {% if not livestream.is_live %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="action" value="start" class="btn">Start Live Stream</button>
+        </form>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="action" value="stop" class="btn">End Live Stream</button>
+        </form>
+        <p>Viewers: <strong id="viewers-count">{{ livestream.viewers_count }}</strong></p>
+    {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_script %}
 <script>
-  // Load HLS stream
-  var video = document.getElementById('live-player');
-  var streamUrl = "{{ livestream_url }}"; // RTMP converted HLS URL
-  if(Hls.isSupported()) {
-      var hls = new Hls();
-      hls.loadSource(streamUrl);
-      hls.attachMedia(video);
-  } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = streamUrl;
-  }
+    const video = document.getElementById('live-player');
+    const streamUrl = "{{ livestream_url }}";
 
-  // TODO: Poll viewers count every few seconds (or use WebSockets)
+    if(Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(streamUrl);
+        hls.attachMedia(video);
+    } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = streamUrl;
+    }
 </script>
 {% endblock %}

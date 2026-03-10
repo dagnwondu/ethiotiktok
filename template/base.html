@@ -4,34 +4,136 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Ethiotiktok{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header a {
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+
+        main {
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .btn {
+            background-color: #ff0055;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e6004d;
+        }
+
+        .card {
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Light mode */
+        body.light {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        body.light header {
+            background-color: #f0f0f0;
+        }
+
+        body.light header a {
+            color: #000000;
+        }
+
+        body.light .card {
+            background-color: #f0f0f0;
+            color: #000000;
+        }
+
+        /* Dark mode */
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+        }
+
+        body.dark header a {
+            color: #ffffff;
+        }
+
+        body.dark .card {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+    </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-light">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/">Ethiotiktok</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
-          </li>
-        {% endif %}
-      </ul>
+<body id >
+<header>
+    <div class="logo">
+        <a href="/">Ethiotiktok</a>
     </div>
-  </div>
-</nav>
+    <div class="nav">
+        <button class="btn" id="mode-toggle">Toggle Mode</button>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+</header>
 
-<div class="container my-4">
+<main>
     {% block content %}{% endblock %}
-</div>
+</main>
 
-{% block extra_script %}{% endblock %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleBtn = document.getElementById('mode-toggle');
+
+    // Load saved theme from localStorage
+    let currentMode = localStorage.getItem('theme') || 'light';
+    document.body.classList.add(currentMode);
+
+    // Toggle on button click
+    toggleBtn.addEventListener('click', () => {
+        if(document.body.classList.contains('dark')) {
+            document.body.classList.remove('dark');
+            document.body.classList.add('light');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.remove('light');
+            document.body.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+});
+</script>
 </body>
 </html>
