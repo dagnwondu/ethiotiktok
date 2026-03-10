@@ -16,6 +16,7 @@ from django.core.exceptions import PermissionDenied
 from functools import wraps
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils import timezone
+from livestream.models import LiveStream
 
 #  Role based permissions
 def role_required(allowed_roles):
@@ -42,9 +43,25 @@ def receptionist_dashboard(request):
 # Streamer views
 # Streamer views
 # Streamer views
-@role_required(['receptionist'])
+@role_required(['streamer'])
 def streamer_dashboard(request):
-    today = timezone.now().date()
+    # Get or create livestream for host
+    livestream, created = LiveStream.objects.get_or_create(host=request.user)
+
+    # Handle Start/Stop actions
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'start':
+            livestream.is_live = True
+            livestream.save()
+        elif action == 'stop':
+            livestream.is_live = False
+            livestream.save()
+        return redirect('streamer_dashboard')
+
+    guests = livestream.guests.all()
+    livestream_url = f"/media/live/{request.user.username}.m3u8"  # placeholder
+
     return render(request, 'dashboards/streamer_dashboard.html')
 # Cashier views
 # Cashier views

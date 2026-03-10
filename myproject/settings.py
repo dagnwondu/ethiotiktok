@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'authentication',
+    'livestream',
 
 ]
 # settings.py
