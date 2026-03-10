@@ -33,11 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'authentication',
-    'staff',
-    'patient',
-    'clinical',
-    'admission',
-    'billing',
+
 ]
 # settings.py
 AUTH_USER_MODEL = 'authentication.CustomUser'

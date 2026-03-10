@@ -10,13 +10,11 @@ class CustomUserAdmin(UserAdmin):
         'username',
         'email',
         'user_type',
-        'is_staff',
         'is_active',
     )
 
     list_filter = (
         'user_type',
-        'is_staff',
         'is_active',
     )
 

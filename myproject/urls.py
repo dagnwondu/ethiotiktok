@@ -23,8 +23,6 @@ handler500 = 'authentication.views.custom_500'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('authentication.urls')),
-    path('staff/', include('staff.urls')),
-    path('patient/', include('patient.urls')),
     path('accounts/', include('django.contrib.auth.urls')),  # includes login, logout, password reset, etc.
     ]
 

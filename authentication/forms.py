@@ -1,6 +1,5 @@
 from django import forms
 from .models import CustomUser
-from staff.models import Staff
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(

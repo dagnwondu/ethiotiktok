@@ -9,21 +9,13 @@ from django.contrib import messages
 from django.urls import reverse
 from .forms import UserUpdateForm  
 from django.contrib.auth.decorators import login_required
-from staff.models import Staff
-from staff.forms import StaffUpdateForm
 from django.http import HttpResponse
-from django.core.paginator import Paginator
 from django.db.models import Prefetch
 from django.utils.timezone import now
-from django.db.models.functions import Coalesce,Cast
-from django.db.models import F, Sum, DecimalField, ExpressionWrapper
 from django.core.exceptions import PermissionDenied
 from functools import wraps
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from patient.forms import PatientForm
 from django.utils import timezone
-from patient.models import Patient
-from billing.models import Invoice, InvoiceItem
 
 #  Role based permissions
 def role_required(allowed_roles):
@@ -45,35 +37,15 @@ class CustomLoginView(LoginView):
 # Receptionist views
 @role_required(['receptionist'])
 def receptionist_dashboard(request):
-    form = PatientForm
     today = timezone.now().date()
-
-    # Patients registered today
-    patients_registered_today = Patient.objects.filter(
-        registered_date__date=today
-    )
-
-    # Registration fees collected today
-    registration_income_today = Invoice.objects.filter(
-        episode__isnull=True,
-        status='paid',
-        created_at__date=today
-    ).aggregate(total=Sum('items__unit_price'))['total'] or 0
-
-    # Registration fees pending today
-    registration_pending_today = Invoice.objects.filter(
-        episode__isnull=True,
-        status__in=['draft','issued','partial'],
-        created_at__date=today
-    ).count()
-    context= {
-        'form':form,
-        'patients_registered_today':patients_registered_today,
-        'registration_income_today':registration_income_today,
-        'registration_pending_today':registration_pending_today,
-        }
-
-    return render(request, 'dashboards/receptionist_dashboard.html', context)
+    return render(request, 'dashboards/receptionist_dashboard.html')
+# Streamer views
+# Streamer views
+# Streamer views
+@role_required(['receptionist'])
+def streamer_dashboard(request):
+    today = timezone.now().date()
+    return render(request, 'dashboards/streamer_dashboard.html')
 # Cashier views
 # Cashier views
 # Cashier views
@@ -113,11 +85,13 @@ def dashboard(request):
         user = CustomUser.objects.get(id=request.user.id)
         user_role = user.user_type.lower()  # e.g., "admin", "doctor", etc.
         # Redirect based on user role
-        if user_role == 'receptionist':
+        if user_role == 'streamer':
+            return redirect('streamer_dashboard')
+        elif user_role == 'receptionist':
             return redirect('receptionist_dashboard')
-        if user_role == 'cashier':
+        elif user_role == 'cashier':
             return redirect('cashier_dashboard') 
-        if user_role == 'finance':
+        elif user_role == 'finance':
             return redirect('finance_dashboard') 
         elif user_role == 'admin':
             return redirect('admin_dashboard')
@@ -178,19 +152,6 @@ class MyUsersView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         self.object_list = self.get_queryset()
         context = self.get_context_data(user_form=user_form)
         return render(request, self.template_name, context)
-class MyStaffsView(LoginRequiredMixin, ListView):
-    template_name = 'admin_page/manage_staffs.html'
-    model = Staff
-    context_object_name = 'staffs'
-
-    def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()  # Initialize object_list
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_form'] = UserForm()
-        return context
 
     def post(self, request, *args, **kwargs):
         user_form = UserForm(request.POST)
@@ -199,8 +160,8 @@ class MyStaffsView(LoginRequiredMixin, ListView):
             user.set_password(user_form.cleaned_data['password'])  
             user.save()
             messages.success(request, "User created successfully!")
-            return redirect('staffs_management')
-        messages.error(request, "Error while creating Staff")
+            return redirect('users_management')
+        messages.error(request, "Error while creating User")
         self.object_list = self.get_queryset()  # Ensure object_list is set
         context = self.get_context_data()
         context['user_form'] = user_form  # Include form with errors
@@ -252,28 +213,6 @@ def change_password(request, user_id):
 
     return redirect('users_management')  # Adjust to your URL name
 
-# Staffs Management
-@role_required(['admin'])
-def update_staff(request, staff_id):
-    staff = get_object_or_404(Staff, id=staff_id)
-
-       # Display the form with staff data
-    form = StaffUpdateForm(instance=staff)
-    return render(request, "admin_page/update_staff.html", {"form": form, "staff": staff})
-@role_required(['admin'])
-def delete_staff(request, staff_id):
-    # Only allow deletion if the staff exists
-    staff = get_object_or_404(Staff, id=staff_id)
-    
-    # Prevent deletion of yourself
-    if request.staff == staff:
-        messages.error(request, "You cannot delete yourself.")
-        return redirect(reverse('staffs_management'))  # Update 'manage_staffs' with your actual view name
-
-    # Delete the staff
-    staff.delete()
-    messages.success(request, "staff deleted successfully.")
-    return redirect(reverse('staffs_management'))  # Update 'manage_staffs' with your actual view name
 
 @role_required(['nurse'])
 def nurse_page(request):
